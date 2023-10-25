@@ -24,8 +24,8 @@
 ### Namespace to deploy pulsar
 # The namespace to use to deploy the pulsar components, if left empty
 # will default to .Release.Namespace (aka helm --namespace).
-namespace: ""
-namespaceCreate: false
+namespace: "pulsar"
+namespaceCreate: true
 
 ## clusterDomain as defined for your k8s cluster
 clusterDomain: cluster.local
@@ -74,13 +74,13 @@ tlsPrefix: ""  # For Istio this will be "tls-"
 ## that component.
 ##
 ## Deprecated in favor of using `volumes.persistence`
-persistence: true
+persistence: false
 ## Volume settings
 volumes:
-  persistence: true
+  persistence: false
   # configure the components to use local persistent volume
   # the local provisioner should be installed prior to enable local persistent volume
-  local_storage: false
+  local_storage: true
 
 ## RBAC
 ##
@@ -100,7 +100,7 @@ rbac:
 ## If you need to disable AntiAffinity for a component, you can set
 ## the `affinity.anti_affinity` settings to `false` for that component.
 affinity:
-  anti_affinity: true
+  anti_affinity: false
   # Set the anti affinity type. Valid values:
   # requiredDuringSchedulingIgnoredDuringExecution - rules must be met for pod to be scheduled (hard) requires at least one node per replica
   # preferredDuringSchedulingIgnoredDuringExecution - scheduler will try to enforce but not guranentee
@@ -115,11 +115,11 @@ components:
   # bookkeeper
   bookkeeper: true
   # bookkeeper - autorecovery
-  autorecovery: true
+  autorecovery: false
   # broker
   broker: true
   # functions
-  functions: true
+  functions: false
   # proxy
   proxy: true
   # toolset
@@ -352,7 +352,7 @@ zookeeper:
     fsGroupChangePolicy: "OnRootMismatch"
   volumes:
     # use a persistent volume or emptyDir
-    persistence: true
+    persistence: false
     data:
       name: data
       size: 20Gi
@@ -423,7 +423,7 @@ bookkeeper:
       # requests:
         # memory: 4Gi
         # cpu: 2
-  replicaCount: 4
+  replicaCount: 1
   updateStrategy:
     type: RollingUpdate
   podManagementPolicy: Parallel
@@ -492,7 +492,7 @@ bookkeeper:
     fsGroupChangePolicy: "OnRootMismatch"
   volumes:
     # use a persistent volume or emptyDir
-    persistence: true
+    persistence: false
     journal:
       name: journal
       size: 10Gi
@@ -678,7 +678,7 @@ broker:
   # use a component name that matches your grafana configuration
   # so the metrics are correctly rendered in grafana dashboard
   component: broker
-  replicaCount: 3
+  replicaCount: 1
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -813,7 +813,7 @@ proxy:
   # use a component name that matches your grafana configuration
   # so the metrics are correctly rendered in grafana dashboard
   component: proxy
-  replicaCount: 3
+  replicaCount: 1
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -1035,13 +1035,13 @@ toolset:
 ## https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 ## For sample values, please see their documentation.
 kube-prometheus-stack:
-  enabled: true
+  enabled: false
   prometheus:
-    enabled: true
+    enabled: false
   grafana:
-    enabled: true
+    enabled: false
   prometheus-node-exporter:
-    enabled: true
+    enabled: false
   alertmanager:
     enabled: false
 
@@ -1075,7 +1075,7 @@ pulsar_manager:
   ## templates/pulsar-manager-service.yaml
   ##
   service:
-    type: LoadBalancer
+    type: NodePort
     port: 9527
     targetPort: 9527
     annotations: {}
