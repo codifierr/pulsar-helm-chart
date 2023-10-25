@@ -77,7 +77,7 @@ tlsPrefix: ""  # For Istio this will be "tls-"
 persistence: false
 ## Volume settings
 volumes:
-  persistence: false
+  persistence: true
   # configure the components to use local persistent volume
   # the local provisioner should be installed prior to enable local persistent volume
   local_storage: true
@@ -115,7 +115,7 @@ components:
   # bookkeeper
   bookkeeper: true
   # bookkeeper - autorecovery
-  autorecovery: false
+  autorecovery: true
   # broker
   broker: true
   # functions
@@ -125,7 +125,7 @@ components:
   # toolset
   toolset: true
   # pulsar manager
-  pulsar_manager: false
+  pulsar_manager: true
 
 ## which extra components to deploy (Deprecated)
 extra:
@@ -287,7 +287,7 @@ zookeeper:
   podManagementPolicy: Parallel
   # This is how prometheus discovers this component
   podMonitor:
-    enabled: true
+    enabled: false
     interval: 10s
     scrapeTimeout: 10s
   # True includes annotation for statefulset that contains hash of corresponding configmap, which will cause pods to restart on configmap change
@@ -352,10 +352,10 @@ zookeeper:
     fsGroupChangePolicy: "OnRootMismatch"
   volumes:
     # use a persistent volume or emptyDir
-    persistence: false
+    persistence: true
     data:
       name: data
-      size: 20Gi
+      size: 1Gi
       local_storage: true
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
       ##
@@ -429,7 +429,7 @@ bookkeeper:
   podManagementPolicy: Parallel
   # This is how prometheus discovers this component
   podMonitor:
-    enabled: true
+    enabled: false
     interval: 10s
     scrapeTimeout: 10s
   # True includes annotation for statefulset that contains hash of corresponding configmap, which will cause pods to restart on configmap change
@@ -492,10 +492,10 @@ bookkeeper:
     fsGroupChangePolicy: "OnRootMismatch"
   volumes:
     # use a persistent volume or emptyDir
-    persistence: false
+    persistence: true
     journal:
       name: journal
-      size: 10Gi
+      size: 1Gi
       local_storage: true
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
       ##
@@ -607,7 +607,7 @@ autorecovery:
   replicaCount: 1
   # This is how prometheus discovers this component
   podMonitor:
-    enabled: true
+    enabled: false
     interval: 10s
     scrapeTimeout: 10s
   # True includes annotation for statefulset that contains hash of corresponding configmap, which will cause pods to restart on configmap change
@@ -687,7 +687,7 @@ broker:
     behavior: ~
   # This is how prometheus discovers this component
   podMonitor:
-    enabled: true
+    enabled: false
     interval: 10s
     scrapeTimeout: 10s
   # True includes annotation for statefulset that contains hash of corresponding configmap, which will cause pods to restart on configmap change
@@ -822,7 +822,7 @@ proxy:
     behavior: ~
   # This is how prometheus discovers this component
   podMonitor:
-    enabled: true
+    enabled: false
     interval: 10s
     scrapeTimeout: 10s
   # True includes annotation for statefulset that contains hash of corresponding configmap, which will cause pods to restart on configmap change
